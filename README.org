@@ -1,0 +1,15 @@
+* sea-pie
+Tools for processing a text file.
+
+* Use
+Add the path (e.g. ~(push #P"../sea-pie/" asdf:*central-registry*)~) then:
+#+BEGIN_SRC lisp
+  (ql:quickload :sea-pie)
+#+END_SRC
+
+** gather-word-frequencies
+
+* Test
+#+BEGIN_SRC lisp
+  (t-sea-pie:test-all)
+#+END_SRC
