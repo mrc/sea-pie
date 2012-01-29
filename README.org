@@ -12,7 +12,7 @@ Read a word from a stream (possibly after swallowing non-word characters):
 
 Build a table of word frequencies (words as symbols, mapped to the number of occurrences):
 #+BEGIN_SRC lisp
-  (sea-pie:gather-word-frequencies-from-file "/Users/mrc/x/lang/alice")
+  (sea-pie:gather-word-frequencies-from-file "alice.txt")
   => #<HASH-TABLE :TEST EQL size 2854/3484 #x3020010316CD>
   => 27798
   (gethash 'rabbit *)
