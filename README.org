@@ -50,8 +50,6 @@ asdf:*central-registry*)~) then:
   (ql:quickload :sea-pie)
 #+END_SRC
 
-** gather-word-frequencies
-
 * Test
 #+BEGIN_SRC lisp
   (t-sea-pie:test-all)
