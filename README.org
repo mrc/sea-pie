@@ -1,6 +1,24 @@
 * sea-pie
 Tools for processing a text file.
 
+* Examples
+Read a word from a stream (possibly after swallowing non-word characters):
+#+BEGIN_SRC lisp
+  (with-open-file (f "alice.txt")
+    (loop for i from 1 to 27
+       collect (sea-pie:read-word f)))
+  => ("CHAPTER" "I" "Down" "the" "Rabbit" "Hole" "Alice" "was" "beginning" "to" "get" "very" "tired" "of" "sitting" "by" "her" "sister" "on" "the" "bank" "and" "of" "having" "nothing" "to" "do")
+#+END_SRC
+
+Build a table of word frequencies (words as symbols, mapped to the number of occurrences):
+#+BEGIN_SRC lisp
+  (sea-pie:gather-word-frequencies-from-file "/Users/mrc/x/lang/alice")
+  => #<HASH-TABLE :TEST EQL size 2854/3484 #x3020010316CD>
+  => 27798
+  (gethash 'rabbit *)
+  => 46
+#+END_SRC
+
 * Use
 Add the path (e.g. ~(push #P"../sea-pie/" asdf:*central-registry*)~) then:
 #+BEGIN_SRC lisp
