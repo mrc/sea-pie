@@ -2,7 +2,8 @@
 Tools for processing a text file.
 
 * Examples
-Read a word from a stream (possibly after swallowing non-word characters):
+Read a word from a stream (possibly after swallowing non-word
+characters):
 #+BEGIN_SRC lisp
   (with-open-file (f "alice.txt")
     (loop for i from 1 to 27
@@ -10,7 +11,8 @@ Read a word from a stream (possibly after swallowing non-word characters):
   => ("CHAPTER" "I" "Down" "the" "Rabbit" "Hole" "Alice" "was" "beginning" "to" "get" "very" "tired" "of" "sitting" "by" "her" "sister" "on" "the" "bank" "and" "of" "having" "nothing" "to" "do")
 #+END_SRC
 
-Build a table of word frequencies (words as symbols, mapped to the number of occurrences):
+Build a table of word frequencies (words as symbols, mapped to the
+number of occurrences):
 #+BEGIN_SRC lisp
   (sea-pie:gather-word-frequencies-from-file "alice.txt")
   => #<HASH-TABLE :TEST EQL size 2854/3484 #x3020010316CD>
@@ -19,8 +21,31 @@ Build a table of word frequencies (words as symbols, mapped to the number of occ
   => 46
 #+END_SRC
 
+By default the word frequency table has the words as uppercased
+symbols. Regular strings can be used instead. Also note that the
+result of ~gather-word-frequcies~ has a second value, which is a count
+of the total number of words seen (which can be useful for developing
+a probability model):
+
+#+BEGIN_SRC lisp
+  (with-input-from-string (stream "This Is The Day This Is The Hour")
+    (multiple-value-bind (freqs sum)
+        (sea-pie:gather-word-frequencies stream :normalizer #'string-downcase :test 'equal)
+      (loop for k being the hash-keys of freqs
+         using (hash-value v)
+         do (format t "~&~A = ~A~%" k v))
+      (list freqs sum)))
+  hour = 1
+  is = 2
+  the = 2
+  this = 2
+  day = 1
+  => (#<HASH-TABLE :TEST EQUAL size 5/60 #x30200123094D> 8)
+#+END_SRC
+
 * Use
-Add the path (e.g. ~(push #P"../sea-pie/" asdf:*central-registry*)~) then:
+Add the project to your asdf search path (e.g. ~(push #P"../sea-pie/"
+asdf:*central-registry*)~) then:
 #+BEGIN_SRC lisp
   (ql:quickload :sea-pie)
 #+END_SRC
