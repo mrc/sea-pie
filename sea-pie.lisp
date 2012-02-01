@@ -5,12 +5,12 @@
 (defun read-word (stream)
   "Read a word from `STREAM', possibly after swallowing non-word
 characters."
-  (let (current-word)
+  (let ((current-word (make-array 10 :fill-pointer 0 :adjustable t :element-type 'character)))
     (labels ((word-char-p (c)
                (or (alpha-char-p c)
                    (char= #\' c)))
              (see (c)
-               (push c current-word))
+               (vector-push-extend c current-word))
              (swallow-non-word ()
                (loop for c = (read-char stream nil)
                   thereis (null c)
@@ -21,8 +21,8 @@ characters."
          thereis (null c)
          while (word-char-p c)
          do (see c)))
-    (if current-word
-        (concatenate 'string (nreverse current-word))
+    (if (> (length current-word) 0)
+        (concatenate 'string current-word)
         nil)))
 
 (defun gather-word-frequencies (stream &key normalizer (test 'eql))
