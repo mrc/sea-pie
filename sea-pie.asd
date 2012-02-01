@@ -7,8 +7,7 @@
   :name "sea-pie"
   :version "0.1"
   :serial t
-  :depends-on (#:series
-               #:cl-utilities
+  :depends-on (#:cl-utilities
                #:stefil)
   :components ((:file "package")
                (:file "sea-pie")
