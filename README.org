@@ -14,7 +14,8 @@ characters):
 Build a table of word frequencies (words as symbols, mapped to the
 number of occurrences):
 #+BEGIN_SRC lisp
-  (sea-pie:gather-word-frequencies-from-file "alice.txt")
+  (with-open-file (f "alice.txt")
+    (sea-pie:gather-word-frequencies f))
   => #<HASH-TABLE :TEST EQL size 2854/3484 #x3020010316CD>
   => 27798
   (gethash 'rabbit *)
@@ -41,6 +42,51 @@ a probability model):
   this = 2
   day = 1
   => (#<HASH-TABLE :TEST EQUAL size 5/60 #x30200123094D> 8)
+#+END_SRC
+
+Build a table of word bigram frequencies:
+
+#+BEGIN_SRC lisp
+CL-USER> (with-input-from-string (stream "This Is The Day This Is The Hour")
+           (multiple-value-bind (freqs sum)
+               (sea-pie:gather-word-ngram-frequencies-from-stream 2 stream)
+             (loop for k being the hash-keys of freqs
+                  using (hash-value v)
+                  do (format t "~&~A = ~A~%" k (/ v sum)))))
+(THIS IS) = 2/7
+(IS THE) = 2/7
+(THE DAY) = 1/7
+(DAY THIS) = 1/7
+(THE HOUR) = 1/7
+=> NIL
+#+END_SRC
+
+Build a table of letter bigram frequencies:
+
+#+BEGIN_SRC lisp
+CL-USER> (with-input-from-string (stream "This Is The Day This Is The Hour")
+           (multiple-value-bind (freqs sum)
+               (sea-pie:gather-letter-ngram-frequencies-from-stream 2 stream)
+             (loop for k being the hash-keys of freqs
+                  using (hash-value v)
+                  do (format t "~&~A = ~A~%" k (/ v sum)))))
+TH = 4/31
+HI = 2/31
+IS = 4/31
+S  = 4/31
+ I = 2/31
+ T = 3/31
+HE = 2/31
+E  = 2/31
+ D = 1/31
+DA = 1/31
+AY = 1/31
+Y  = 1/31
+ H = 1/31
+HO = 1/31
+OU = 1/31
+UR = 1/31
+=> NIL
 #+END_SRC
 
 * Use
