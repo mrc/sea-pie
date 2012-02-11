@@ -3,6 +3,7 @@
 (in-package #:sea-pie)
 
 (defun word-char-p (c)
+  "True if c is a word char, by an ever mutating definition."
   (or (alpha-char-p c)
       (char= #\' c)))
 
@@ -27,22 +28,8 @@ characters."
         nil)))
 
 (defun upcase-and-intern-string (string)
+  "Return a symbol made out of the uppercased string."
   (intern (string-upcase string)))
-
-(defun upcase-and-intern-chars (chars)
-  (intern (string-upcase (concatenate 'string chars))))
-
-(defun normalize-and-upcase-chars (chars &key (test #'word-char-p) (replacement #\Space))
-  "Turn a sequence of chars into a string, after transforming non
-word-chars (by `TEST') to `REPLACEMENT'."
-  (labels ((norm-char (c)
-             (if (funcall test c)
-                 c
-                 replacement)))
-    (string-upcase (concatenate 'string (mapcar #'norm-char chars)))))
-
-(defun chars-to-string (chars)
-  (concatenate 'string chars))
 
 (defun gather-ngrams (order generator collector)
   "Call `GENERATOR', until it returns nil. For each ngram of length
@@ -90,14 +77,18 @@ seen, including duplicates."
                (cond
                  ((null ch) nil)
                  ((word-char-p ch) (char-upcase ch))
-                 (t #\Space)))))
+                 (t #\Space))))
+           (chars-to-string (chars)
+             (concatenate 'string chars)))
     (gather-ngram-frequencies order
                               #'generate-letter
                               #'chars-to-string
                               :test 'equal)))
 
 (defun gather-word-ngram-frequencies-from-stream (order stream)
+  "Returns a frequency table of word tuples of length `ORDER' from the
+stream."
   (gather-ngram-frequencies order
                             (lambda () (read-word stream))
-                            (lambda (tuple) (mapcar #'upcase-and-intern-string tuple))
-                            :test 'equalp))
+                            (lambda (ngram) (mapcar #'upcase-and-intern-string ngram))
+                            :test 'equal))
