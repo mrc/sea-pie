@@ -8,11 +8,7 @@
   :version "0.1"
   :serial t
   :depends-on (#:cl-utilities
-               #:stefil
                #:rep-theatre)
   :components ((:file "package")
-               (:file "sea-pie")
-               (:file "t-package")
-               (:file "t-read-words")
-               (:file "t-word-frequencies")))
+               (:file "sea-pie")))
 

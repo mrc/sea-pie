@@ -1,7 +1,7 @@
 (in-package #:t-sea-pie)
 
-(in-root-suite)
-(defsuite* test-all)
+(in-suite test-all)
+(defsuite* test-word-frequencies)
 
 (defparameter *words* "
    Pol. How say you by that? Still harping on my daughter:

@@ -1,7 +1,7 @@
 (in-package #:t-sea-pie)
 
-(in-root-suite)
-(defsuite* test-all)
+(in-suite test-all)
+(defsuite* test-read-words)
 
 (defparameter *monologue* "
     Now is the winter of our discontent
