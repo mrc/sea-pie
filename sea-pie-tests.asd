@@ -9,8 +9,8 @@
   :serial t
   :depends-on (#:cl-utilities
                #:sea-pie
-               #:rep-theatre
-               #:stefil)
+               #:stefil
+               #:mrc-stefil-extras)
   :components ((:file "t-package")
                (:file "t-read-words")
                (:file "t-ngram-frequencies")

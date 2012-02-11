@@ -1,7 +1,7 @@
 ;;;; package.lisp
 
 (defpackage #:t-sea-pie
-  (:use #:cl #:sea-pie #:stefil #:rep-theatre)
+  (:use #:cl #:sea-pie #:stefil #:mrc-stefil-extras)
   (:export #:test-all))
 
 (in-package #:t-sea-pie)
