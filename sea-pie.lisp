@@ -2,14 +2,15 @@
 
 (in-package #:sea-pie)
 
+(defun word-char-p (c)
+  (or (alpha-char-p c)
+      (char= #\' c)))
+
 (defun read-word (stream)
   "Read a word from `STREAM', possibly after swallowing non-word
 characters."
   (let ((current-word (make-array 10 :fill-pointer 0 :adjustable t :element-type 'character)))
-    (labels ((word-char-p (c)
-               (or (alpha-char-p c)
-                   (char= #\' c)))
-             (see (c)
+    (labels ((see (c)
                (vector-push-extend c current-word))
              (swallow-non-word ()
                (loop for c = (read-char stream nil)
