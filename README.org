@@ -52,5 +52,6 @@ asdf:*central-registry*)~) then:
 
 * Test
 #+BEGIN_SRC lisp
+  (ql:quickload :sea-pie-tests)
   (t-sea-pie:test-all)
 #+END_SRC
